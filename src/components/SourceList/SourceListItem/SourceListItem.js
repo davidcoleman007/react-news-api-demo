@@ -16,7 +16,7 @@ export class SourceListItem extends Component {
     return (
       <li className="source-list-item">
         <div className="img-container">
-          <img src={`http://i.olsh.me/icon?url=${url}&size=80..120..200`}/>
+          <img src={`http://i.olsh.me/icon?url=${url}&size=80..120..200`} alt="site logo"/>
         </div>
         <div className="source-info">
           <div className="source-name">
