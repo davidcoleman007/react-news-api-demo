@@ -1,13 +1,17 @@
-import { fetchPostAsJson } from './fetch';
+import { fetchGetAsJson } from './fetch';
 
 import { API_BASE, API_KEY } from '../constants/API';
 import { CATEGORIES } from '../constants/categories';
 import { COUNTRIES } from '../constants/countries';
 
 export const getSources = (category = CATEGORIES[0], country = COUNTRIES[0]) => {
-  return fetchPostAsJson(`${API_BASE}/sources?api_key=${API_KEY}`, {
-    category,
-    country
-  });
+  const categoryParams = (category===CATEGORIES[0])?{}:{category};
+  const countryParams  = (country===COUNTRIES[0]) ?{}:{country};
+  const reqParams      = {
+    apiKey: API_KEY,
+    ...categoryParams,
+    ...countryParams
+  };
+  return fetchGetAsJson(`${API_BASE}/sources`, reqParams);
 }
 
