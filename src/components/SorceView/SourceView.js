@@ -6,13 +6,17 @@ import SourceList from '../SourceList/SourceList';
 
 import { getSources } from '../../api/newsapi';
 
+const PAGE_SIZE = 10;
+
 export class SourceView extends Component {
   constructor() {
     super();
     this.state = {
+      curPage : 1,
       numPages : 0,
       sources : [],
      };
+     this.onPageChange = this.onPageChange.bind(this);
   }
 
   componentWillMount() {
@@ -22,24 +26,31 @@ export class SourceView extends Component {
         console.log(status,sources);
         this.setState({
           sources,
-          numPages : ((sources.length / 10)>>0) + 1
+          numPages : ((sources.length / PAGE_SIZE)>>0)
         })
       }
     )
   }
 
+  onPageChange(curPage) {
+    this.setState({
+      curPage
+    });
+  }
+
   render() {
     const {
+      curPage,
       numPages,
       sources
     } = this.state;
-
+    console.log('numPages', numPages);
     return (
       <section>
         <SourceFilter onChange={this.onFilterChange} />
-        {(numPages > 1)?<Paginate />:null}
-        <SourceList sources={sources}/>
-        {(numPages > 1)?<Paginate />:null}
+        {(numPages > 1)?<Paginate curPage={curPage} numPages={numPages} onChange={this.onPageChange}/>:null}
+        <SourceList sources={sources} curPage={curPage}/>
+        {(numPages > 1)?<Paginate  curPage={curPage} numPages={numPages} bottom />:null}
       </section>
     );
   }
