@@ -47,7 +47,6 @@ export class Paginate extends Component {
     return (
       <section className={`paginate-section ${keyTag}`}>
         <button>&lt;</button>
-        <button>&lt;&lt;</button>
         <ul className="page-list">
           {leftPages}
           {showRightRange && (
@@ -58,7 +57,6 @@ export class Paginate extends Component {
           )}
         </ul>
         <button>&gt;</button>
-        <button>&gt;&gt;</button>
       </section>
     );
   }

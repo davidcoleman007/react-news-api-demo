@@ -17,7 +17,6 @@ export class SourceFilter extends React.Component {
   }
 
   onCatChange(event) {
-    const { onChange } = this.props;
     const {value} = event.target;
     const filter = {
       ...this.state,

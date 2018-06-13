@@ -10,6 +10,7 @@ export class SourceListItem extends Component {
   }
   onClick() {
     const { onClick, source } = this.props;
+    // if we pass something in, we can call it
     onClick && onClick(source);
   }
   render() {

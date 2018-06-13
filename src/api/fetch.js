@@ -3,7 +3,6 @@ export const fetchGet = (req, postData) => {
     ([key, value]) => `${key}=${encodeURIComponent(value)}`
   );
   const queryString = entries.join('&');
-  console.log(postData, entries);
   return fetch(`${req}?${queryString}`);
 };
 
@@ -28,7 +27,6 @@ export const fetchGetAsJson = (req, postData) =>
 export const fetchPostAsJson = (req, postData) =>
 fetchPost(req, postData).then(
   (res) => {
-    console.log(res);
     return res.json().then(
       (data) => {
         return data;

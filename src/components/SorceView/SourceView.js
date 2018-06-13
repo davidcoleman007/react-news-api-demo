@@ -68,13 +68,12 @@ export class SourceView extends Component {
       curPage,
       sources
     } = this.state;
-    const { onItemClick } = this.props;
     const numPages = ((sources.length / PAGE_SIZE)>>0);
     return (
       <section>
         <SourceFilter onChange={this.onFilterChange} />
         {(numPages > 1)?<Paginate curPage={curPage} numPages={numPages} onChange={this.onPageChange}/>:null}
-        <SourceList sources={sources} curPage={curPage} onItemClick={onItemClick} />
+        <SourceList sources={sources} curPage={curPage} />
         {(numPages > 1)?<Paginate  curPage={curPage} numPages={numPages} bottom />:null}
       </section>
     );

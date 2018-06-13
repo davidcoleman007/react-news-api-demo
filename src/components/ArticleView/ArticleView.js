@@ -6,6 +6,7 @@ import { Paginate } from '../Paginate';
 import { getArticles } from '../../api/newsapi';
 
 import './ArticleView.scss';
+import { ArticleTile } from '../ArticleTile';
 
 export class ArticleView extends Component {
   constructor(props) {
@@ -15,10 +16,12 @@ export class ArticleView extends Component {
       articles : [],
       curPage  : 1,
       numPages : 1,
+      sorting: 'publishedAt',
       sourceId,
       sourceName
     }
     this.onPageChange = this.onPageChange.bind(this);
+    this.onSortChange = this.onSortChange.bind(this);
   }
 
   componentWillMount() {
@@ -26,23 +29,27 @@ export class ArticleView extends Component {
   }
 
   onPageChange(curPage) {
-    console.log(curPage);
     this.setState({
       curPage
     });
     this.getArticles(curPage);
   }
 
-  getArticles(curPage) {
+  onSortChange(event) {
+    const { value } = event.target;
+    this.setState({
+      sorting: value
+    });
+    this.getArticles(1, value);
+  }
+
+  getArticles(curPage, sorting) {
     const {sourceId} = this.state;
     if(curPage === undefined) {
       curPage = this.state.curPage;
     }
-    console.log(curPage);
-
-    getArticles(sourceId, curPage).then(
+    getArticles(sourceId, curPage, sorting).then(
       ({articles, totalResults}) => {
-        console.log(articles);
         this.setState({
           numPages: ((totalResults/10)>>0) + 1,
           articles,
@@ -56,37 +63,32 @@ export class ArticleView extends Component {
       articles,
       curPage,
       numPages,
-      sourceId,
+      sorting,
       sourceName
     } = this.state;
-    console.log(this.props.location.search, sourceId);
     return (
       <section className="article-view">
         <header>
-          Articles for {sourceName}
+          <h1>Articles for {sourceName}</h1>
         </header>
+        <div>
+          Choose sorting
+          <select value={sorting} onChange={this.onSortChange}>
+            <option value="relevancy">
+              relevancy
+            </option>
+            <option value="popularity">
+              popularity
+            </option>
+            <option value="publishedAt">
+              publish date
+            </option>
+          </select>
+        </div>
         {(numPages > 1 ) && <Paginate curPage={curPage} numPages={numPages} onChange={this.onPageChange}/>}
         <section className="article-list">
           {articles && articles.map(
-            article => {
-              const {url, urlToImage} = article;
-              return (
-                <article className="article-tile">
-                  <header>
-                    <div className="img">
-                      {!urlToImage && <img src={`http://i.olsh.me/icon?url=${url}&size=80..120..200`} alt="site logo"/>}
-                      {urlToImage && <img src={urlToImage} alt="article img"/>}
-                    </div>
-                    <div className="title">
-                      {article.title}
-                    </div>
-                  </header>
-                  <div className="description">
-                    {article.description}
-                  </div>
-                </article>
-              );
-            }
+            (article,idx) => <ArticleTile article={article} key={`article-tile-${idx}`}/>
           )}
         </section>
       </section>
