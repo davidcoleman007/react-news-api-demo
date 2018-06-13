@@ -6,10 +6,11 @@ import './SourceList.scss';
 class SourceList extends React.Component {
   render() {
     const { curPage, sources } = this.props;
-    const start = curPage * 10;
+    const start = (curPage-1) * 10;
+    const page = sources.slice(start, Math.min(start + 10, sources.length-1));
     return (
       <ul className="source-list">
-        {sources.slice(start, start + 10).map(source =>
+        {page.map(source =>
           <SourceListItem source={source}/>
         )}
       </ul>

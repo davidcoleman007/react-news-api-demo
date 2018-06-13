@@ -13,23 +13,48 @@ export class SourceView extends Component {
     super();
     this.state = {
       curPage : 1,
-      numPages : 0,
       sources : [],
      };
+     this.onFilterChange = this.onFilterChange.bind(this);
      this.onPageChange = this.onPageChange.bind(this);
   }
 
   componentWillMount() {
     getSources().then(
       (resp) => {
-        const { sources, status } = resp;
-        console.log(status,sources);
+        const { sources } = resp;
         this.setState({
-          sources,
-          numPages : ((sources.length / PAGE_SIZE)>>0)
+          allSources: [
+            ...sources
+          ],
+          sources: [
+            ...sources
+          ]
         })
       }
     )
+  }
+
+  onFilterChange(filters) {
+    const {
+      category,
+      country,
+    } = filters;
+    const {allSources} = this.state;
+    const newSources = [
+      ...allSources.reduce(
+        (a, c) => {
+          if((category === 'all' || c.category === category) &&
+            (country === 'all' || c.language === country)) {
+            a.push(c);
+          }
+          return a;
+        }, []
+      )
+    ];
+    this.setState({
+      sources: newSources
+    });
   }
 
   onPageChange(curPage) {
@@ -41,10 +66,9 @@ export class SourceView extends Component {
   render() {
     const {
       curPage,
-      numPages,
       sources
     } = this.state;
-    console.log('numPages', numPages);
+    const numPages = ((sources.length / PAGE_SIZE)>>0);
     return (
       <section>
         <SourceFilter onChange={this.onFilterChange} />

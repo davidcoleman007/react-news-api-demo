@@ -21,8 +21,7 @@ export class Paginate extends Component {
     } = this.props;
     const top = !bottom;
     const isLastPageRange = (curPage > (numPages-9));
-    const firstPageNum = isLastPageRange?(numPages-9):Math.max(curPage - 3,1);
-    console.log('firstPageNum', firstPageNum);
+    const firstPageNum = isLastPageRange?Math.max((numPages-9),1):Math.max(curPage - 3,1);
     const leftPagesToShow = (
       isLastPageRange
       ? (numPages - firstPageNum + 1)
@@ -30,7 +29,6 @@ export class Paginate extends Component {
     );
     const showRightRange = !isLastPageRange;
     const keyTag = top?'top':'bottom';
-    console.log('curPage', curPage);
     const leftPages = (
       Array(leftPagesToShow).fill(true).map(
         (v,idx) => {
@@ -44,7 +42,6 @@ export class Paginate extends Component {
         }
       )
     );
-    console.log('leftPagesToShow', leftPagesToShow, numPages,isLastPageRange, showRightRange);
     return (
       <section className={`paginate-section ${keyTag}`}>
         <button>&lt;</button>
