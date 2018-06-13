@@ -1,5 +1,13 @@
 .paginate-section {
   .page-list {
+    a {
+      &.selected {
+        background-color: rgb(148, 148, 219);
+      }
+      text-decoration: none;
+      color: black;
+      padding: 5px;
+    }
     width          : 33%;
     display        : flex;
     flex-direction : row;

@@ -6,7 +6,10 @@ export class Paginate extends Component {
   constructor(props) {
     super(props);
     this.generateClickHandler = this.generateClickHandler.bind(this);
+    this.onClickNext          = this.onClickNext.bind(this);
+    this.onClickPrev          = this.onClickPrev.bind(this);
   }
+
   generateClickHandler(pg) {
     const {onChange} = this.props;
     return (event) => {
@@ -15,6 +18,17 @@ export class Paginate extends Component {
       onChange && onChange(pg);
     };
   }
+
+  onClickNext() {
+    const { curPage, onChange } = this.props;
+    onChange && onChange(curPage + 1);
+  }
+
+  onClickPrev() {
+    const { curPage, onChange } = this.props;
+    onChange && onChange(curPage - 1);
+  }
+
   render() {
     const {
       curPage = 1,
@@ -31,48 +45,42 @@ export class Paginate extends Component {
     );
     const showRightRange = !isLastPageRange;
     const keyTag = top?'top':'bottom';
-    const leftPages = (
-      Array(leftPagesToShow).fill(true).map(
-        (v,idx) => {
-          const pgNum = firstPageNum + idx;
-          const onClick = this.generateClickHandler(pgNum);
-          return (
-            <li key={`paginate-section-${keyTag}-${idx}`}>
-              <a href="#none" onClick={onClick}>{pgNum}</a>
-            </li>
-          );
-        }
-      )
+    const leftPages = Array(leftPagesToShow).fill(true).map(
+      (v,idx) => {
+        const pgNum = firstPageNum + idx;
+        const onClick = this.generateClickHandler(pgNum);
+        return (
+          <li key={`paginate-section-${keyTag}-${idx}`}>
+            <a href="#none" onClick={onClick} className={(pgNum === curPage)?'selected':''}>{pgNum}</a>
+          </li>
+        );
+      }
     );
+    const rightPages = Array(5).fill(true).map(
+      (v,idx) => {
+        const pNum = numPages - 4 + idx;
+        return (
+          <li key={`paginate-section-${keyTag}-${pNum}`}>
+            <a href="#none" className={(pNum === curPage)?'selected':''}>{pNum}</a>
+          </li>
+        );
+      }
+    );
+
     return (
       <section className={`paginate-section ${keyTag}`}>
-        <button>&lt;</button>
+        {(curPage !== 1) && <button onClick={this.onClickPrev}>&lt;</button>}
         <ul className="page-list">
           {leftPages}
           {showRightRange && (
             <React.Fragment>
               <li><span>&hellip;</span></li>
-              {rightPages(numPages, keyTag)}
+              {rightPages}
             </React.Fragment>
           )}
         </ul>
-        <button>&gt;</button>
+        {(curPage !== numPages) && <button onClick={this.onClickNext}>&gt;</button>}
       </section>
     );
   }
 }
-
-const rightPages = (numPages, keyTag) => {
-  return (
-    Array(5).fill(true).map(
-      (v,idx) => {
-        const pNum = numPages - 4 + idx;
-        return (
-          <li key={`paginate-section-${keyTag}-${pNum}`}>
-            <a href="#none">{pNum}</a>
-          </li>
-        );
-      }
-    )
-  );
-};
