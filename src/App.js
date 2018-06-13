@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import './App.css';
 import { SourceView } from './components/SorceView/SourceView';
 import { ArticleView } from './components/ArticleView';
@@ -20,7 +20,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <Link to="/">
+            <img src={logo} className="App-logo" alt="logo" />
+          </Link>
           <h1 className="App-title">Welcome to my Newsapi.org app</h1>
         </header>
         <main>
