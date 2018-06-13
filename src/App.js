@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import { Route } from 'react-router-dom';
 import './App.css';
 import { SourceView } from './components/SorceView/SourceView';
+import { ArticleView } from './components/ArticleView';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.onItemClick = this.onItemClick.bind(this);
+  }
+
+  onItemClick(source) {
+
+  }
+
   render() {
+
     return (
       <div className="App">
         <header className="App-header">
@@ -12,7 +24,8 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <main>
-          <SourceView/>
+          <Route exact path="/" component={SourceView}/>
+          <Route path="/articles" component={ArticleView}/>
         </main>
       </div>
     );

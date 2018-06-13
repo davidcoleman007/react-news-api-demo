@@ -1,20 +1,23 @@
 .source-list-item {
-  &:hover {
-    background-color: rgb(196, 196, 243);
-  }
-  .img-container {
-    img {
-      width  : 150px;
-      height : auto;
+  a {
+    &:hover {
+      background-color: rgb(196, 196, 243);
     }
-    padding: 10px;
-    width: 150px;
+    .img-container {
+      img {
+        width  : 150px;
+        height : auto;
+      }
+      padding : 10px;
+      width   : 150px;
+    }
+    display         : flex;
+    flex-direction  : row;
+    list-style      : none;
+    padding         : 0;
+    margin          : 10px 0 10px;
+    cursor          : pointer;
+    text-decoration : none;
   }
-  display        : flex;
-  flex-direction : row;
-  list-style     : none;
-  padding        : 0;
-  width: 45%;
-  margin         : 10px 0 10px;
-  cursor         : pointer;
+  width : 45%;
 }

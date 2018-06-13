@@ -15,3 +15,12 @@ export const getSources = (category = CATEGORIES[0], country = COUNTRIES[0]) => 
   return fetchGetAsJson(`${API_BASE}/sources`, reqParams);
 }
 
+export const getArticles = (sourceId, page) => {
+  console.log(page);
+  const reqParams      = {
+    apiKey: API_KEY,
+    sources: [ sourceId ],
+    page,
+  };
+  return fetchGetAsJson(`${API_BASE}/everything`, reqParams);
+}

@@ -9,7 +9,9 @@ export class Paginate extends Component {
   }
   generateClickHandler(pg) {
     const {onChange} = this.props;
-    return () => {
+    return (event) => {
+      event.preventDefault();
+      console.log('page change', pg);
       onChange && onChange(pg);
     };
   }
